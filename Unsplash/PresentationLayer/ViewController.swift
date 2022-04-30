@@ -8,10 +8,18 @@
 import UIKit
 
 class ViewController: UIViewController {
+    let service = PhotosServiceImpl()
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         view.backgroundColor = .white
+        service.getPhotos(
+            page: 2,
+            success: { photos in
+                print(photos)
+            }, failure: { error in
+                print(error)
+            }
+        )
     }
 }
