@@ -17,19 +17,21 @@ class ViewController: UITabBarController {
         let vc4 = ProfileView()
         setViewControllers([vc1, vc2, vc3, vc4], animated: true)
         
-        self.tabBar.backgroundColor = .systemGray2
+        self.tabBar.backgroundColor = UIColor(red: 0.05, green: 0.05, blue: 0.05, alpha: 1)
         self.modalPresentationStyle = .fullScreen
-        
+        self.tabBar.tintColor = .white
         guard let items = self.tabBar.items else {return}
-        let image = ["text.below.photo.fill", "person.2.fill", "pin.fill", "rectangle.stack.person.crop.fill"]
+        let image = ["photo.fill", "magnifyingglass", "plus.app.fill", "person.circle.fill"]
         for i in 0...items.count - 1 {
             items[i].image = UIImage(systemName: image[i])
         }
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         
         service.getPhotos(
         success: { photos in
-            print(photos)
+            print(photos[0].urls)
+            print(type(of: photos[0].urls.raw))
+            
         }, failure: { error in
             print(error)
         })
