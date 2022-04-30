@@ -26,13 +26,12 @@ class ViewController: UITabBarController {
             items[i].image = UIImage(systemName: image[i])
         }
         view.backgroundColor = .white
+        
         service.getPhotos(
-            page: 2,
-            success: { photos in
-                print(photos)
-            }, failure: { error in
-                print(error)
-            }
-        )
+        success: { photos in
+            print(photos)
+        }, failure: { error in
+            print(error)
+        })
     }
 }
