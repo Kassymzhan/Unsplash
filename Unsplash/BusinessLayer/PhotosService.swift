@@ -22,11 +22,11 @@ protocol PhotosService {
     
     func getSearchUsers(searchTerm: String, success: @escaping ([User]) -> Void, failure: @escaping (Error) -> Void)
     
-//    func getListTopics(success: @escaping , failure: @escaping (Error) -> Void)
+    func getListTopics(success: @escaping ([Topic]) -> Void, failure: @escaping (Error) -> Void)
     
-//    func getTopic()
+    func getTopic(id: String ,success: @escaping (Topic) -> Void, failure: @escaping (Error) -> Void)
     
-//    func getTopicPhotos()
+    func getTopicPhotos(id: String ,success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void)
 }
 
 class PhotosServiceImpl: PhotosService {
@@ -84,7 +84,7 @@ class PhotosServiceImpl: PhotosService {
     
     func getSearchCollections(searchTerm: String, success: @escaping ([Collection]) -> Void, failure: @escaping (Error) -> Void) {
         var components = URLComponents()
-        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getSearchCollections), URLQueryItem(name: "query", value: searchTerm)]
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getSearchCollectionsPage), URLQueryItem(name: "query", value: searchTerm)]
         let urlString = String(format: "%@search/collections", EndPoint.baseUrl)
         guard let url = URL(string: urlString + components.string!) else { return }
         var urlRequest = URLRequest(url: url)
@@ -101,7 +101,7 @@ class PhotosServiceImpl: PhotosService {
     
     func getSearchUsers(searchTerm: String, success: @escaping ([User]) -> Void, failure: @escaping (Error) -> Void) {
         var components = URLComponents()
-        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getSearchUsers), URLQueryItem(name: "query", value: searchTerm)]
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getSearchUsersPage), URLQueryItem(name: "query", value: searchTerm)]
         let urlString = String(format: "%@search/users", EndPoint.baseUrl)
         guard let url = URL(string: urlString + components.string!) else { return }
         var urlRequest = URLRequest(url: url)
@@ -116,6 +116,37 @@ class PhotosServiceImpl: PhotosService {
         )
     }
     
+    
+    func getListTopics(success: @escaping ([Topic]) -> Void, failure: @escaping (Error) -> Void) {
+        var components = URLComponents()
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getListTopicsPage), URLQueryItem(name: "per_page", value: EndPoint.getListTopicsPerPage)]
+        let urlString = String(format: "%@topics", EndPoint.baseUrl)
+        guard let url = URL(string: urlString + components.string!) else { return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.method = .get
+        urlRequest.allHTTPHeaderFields = prepareHeader()
+        networkClient.makeRequest(request: urlRequest, success: success, failure: failure)
+    }
+    
+    func getTopic(id: String, success: @escaping (Topic) -> Void, failure: @escaping (Error) -> Void) {
+        let urlString = String(format: "%@topics/\(id)", EndPoint.baseUrl)
+        guard let url = URL(string: urlString) else { return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.method = .get
+        urlRequest.allHTTPHeaderFields = prepareHeader()
+        networkClient.makeRequest(request: urlRequest, success: success, failure: failure)
+    }
+    
+    func getTopicPhotos(id: String,success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void) {
+        var components = URLComponents()
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getListTopicsPage)]
+        let urlString = String(format: "%@topics/\(id)/photos", EndPoint.baseUrl)
+        guard let url = URL(string: urlString + components.string!) else { return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.method = .get
+        urlRequest.allHTTPHeaderFields = prepareHeader()
+        networkClient.makeRequest(request: urlRequest, success: success, failure: failure)
+    }
     
     private func prepareHeader() -> [String: String] {
         var headers = [String: String]()
