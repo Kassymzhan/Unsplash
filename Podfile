@@ -7,4 +7,6 @@ target 'Unsplash' do
   pod 'SnapKit'
   pod 'Alamofire'
   pod 'AlamofireImage'
+  pod 'LZViewPager', '~> 1.2.5'
+
 end

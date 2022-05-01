@@ -11,7 +11,7 @@ class ViewController: UITabBarController {
     let service = PhotosServiceImpl()
     override func viewDidLoad() {
         super.viewDidLoad()
-        let vc1 = FeedView()
+        let vc1 = UINavigationController(rootViewController: FeedView())
         let vc2 = SearchView()
         let vc3 = AddView()
         let vc4 = ProfileView()
@@ -29,9 +29,7 @@ class ViewController: UITabBarController {
         
         service.getPhotos(
         success: { photos in
-            print(photos[0].urls)
-            print(type(of: photos[0].urls.raw))
-            
+            print(photos)
         }, failure: { error in
             print(error)
         })
