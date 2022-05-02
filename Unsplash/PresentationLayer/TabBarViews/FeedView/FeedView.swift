@@ -7,13 +7,14 @@
 
 import UIKit
 import SnapKit
+
 class FeedView: UIViewController {
 //    let service = PhotosServiceImpl()
-    private let viewModel: FeedViewModel
+    private let viewModel: UnsplashViewModel
    
     private let items: [CellConfigurator] = []
     
-    init(viewModel: FeedViewModel) {
+    init(viewModel: UnsplashViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -40,7 +41,7 @@ class FeedView: UIViewController {
     
     private func buildCells() {
         let photos = viewModel.photos.map { photo in
-            PhotoPO(id: photo.id, width: photo.width, height: photo.height, color: photo.color, description: photo.description, createdAt: photo.createdAt, urls: photo.urls.regular )
+            PhotoPO(id: photo.id, width: photo.width, height: photo.height, color: photo.color, description: photo.description, createdAt: photo.createdAt, urls: photo.urls.regular, user: photo.user)
         }
         var cellConfigurators: [PhotoCellConfigurator] = []
         for photo in photos {

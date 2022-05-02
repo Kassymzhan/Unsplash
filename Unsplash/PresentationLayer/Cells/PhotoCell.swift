@@ -15,6 +15,7 @@ struct PhotoPO {
     let description: String?
     let createdAt: String
     let urls: String
+    let user: User
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -24,6 +25,7 @@ struct PhotoPO {
         hasher.combine(description)
         hasher.combine(createdAt)
         hasher.combine(urls)
+//        hasher.combine(user)
     }
 }
 

@@ -15,6 +15,7 @@ struct Photo: Decodable {
     let description: String?
     let createdAt: String
     let urls: Urls
+    let user: User
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -22,5 +23,6 @@ struct Photo: Decodable {
         case description
         case createdAt = "created_at"
         case urls = "urls"
+        case user
     }
 }
