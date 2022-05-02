@@ -12,6 +12,7 @@ struct EndPoint {
     static let getPhotosPage = "1"
     static let getCollectionsPage = "8"
     static let getCollectionPhotosPage = "1"
+    static let getCollectionPhotosPerPage = "30"
     static let getSearchPhotosPage = "1"
     static let getSearchCollectionsPage = "1"
     static let getSearchUsersPage = "1"

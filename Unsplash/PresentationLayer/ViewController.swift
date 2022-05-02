@@ -11,15 +11,15 @@ class ViewController: UITabBarController {
     let service = PhotosServiceImpl()
     override func viewDidLoad() {
         super.viewDidLoad()
-        let vc1 = FeedView(viewModel: FeedViewModel(service: PhotosServiceImpl()))
-        let vc2 = SearchView()
+        let vc1 = FeedView(viewModel: UnsplashViewModel(service: PhotosServiceImpl()))
+        let vc2 = UINavigationController(rootViewController: SearchView(viewModel: UnsplashViewModel(service: PhotosServiceImpl())))
         let vc3 = AddView()
         let vc4 = ProfileView()
         setViewControllers([vc1, vc2, vc3, vc4], animated: true)
         
-        self.tabBar.backgroundColor = UIColor(red: 0.05, green: 0.05, blue: 0.05, alpha: 1)
+        self.tabBar.backgroundColor = .systemBackground//UIColor(red: 0.05, green: 0.05, blue: 0.05, alpha: 1)
         self.modalPresentationStyle = .fullScreen
-        self.tabBar.tintColor = .white
+        self.tabBar.tintColor = .label
         guard let items = self.tabBar.items else {return}
         let image = ["photo.fill", "magnifyingglass", "plus.app.fill", "person.circle.fill"]
         for i in 0...items.count - 1 {

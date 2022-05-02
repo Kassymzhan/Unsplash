@@ -56,7 +56,8 @@ class PhotosServiceImpl: PhotosService {
 
     func getCollectionPhotos(id: Int, success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void) {
         var components = URLComponents()
-        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getCollectionPhotosPage)]
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getCollectionPhotosPage),
+                                 URLQueryItem(name: "per_page", value: EndPoint.getCollectionPhotosPerPage)]
         let urlString = String(format: "%@collections/\(id)/photos", EndPoint.baseUrl)
         guard let url = URL(string: urlString + components.string!) else { return }
         var urlRequest = URLRequest(url: url)
@@ -67,7 +68,7 @@ class PhotosServiceImpl: PhotosService {
 
     func getSearchPhotos(searchTerm: String,success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void) {
         var components = URLComponents()
-        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getSearchPhotosPage), URLQueryItem(name: "query", value: searchTerm)]
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getSearchPhotosPage), URLQueryItem(name: "per_page", value: EndPoint.getListTopicsPerPage), URLQueryItem(name: "query", value: searchTerm)]
         let urlString = String(format: "%@search/photos", EndPoint.baseUrl)
         guard let url = URL(string: urlString + components.string!) else { return }
         var urlRequest = URLRequest(url: url)

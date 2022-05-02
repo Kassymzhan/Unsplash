@@ -15,6 +15,7 @@ struct PhotoPO {
     let description: String?
     let createdAt: String
     let urls: String
+    let user: User
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -24,6 +25,7 @@ struct PhotoPO {
         hasher.combine(description)
         hasher.combine(createdAt)
         hasher.combine(urls)
+//        hasher.combine(user)
     }
 }
 
@@ -69,20 +71,5 @@ class PhotoCell: UITableViewCell, ConfigurableCell {
         image.snp.makeConstraints { make in
             make.leading.trailing.top.bottom.equalToSuperview()
         }
-    }
-}
-
-extension UITableViewCell {
-    func downloadImage(from url: URL, newsImage: UIImageView) {
-        getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            DispatchQueue.main.async() { [weak self] in
-                newsImage.image = UIImage(data: data)
-            }
-        }
-    }
-
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
 }
