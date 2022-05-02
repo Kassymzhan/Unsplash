@@ -7,11 +7,6 @@
 
 import UIKit
 
-struct Discover: Decodable {
-    let imageUrl: String
-    let name: String
-    let height: Int
-}
 
 class SearchView: UIViewController {
     private let viewModel: UnsplashViewModel
@@ -46,17 +41,10 @@ class SearchView: UIViewController {
         return collectionView
     }()
     
-
     lazy var image: UIImageView = {
         let image = UIImageView()
-        image.isUserInteractionEnabled = true
-        image.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(didTapCell)))
         return image
     }()
-    
-    @objc func didTapCell() {
-        print("123")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +53,7 @@ class SearchView: UIViewController {
         title = "Search"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchController
-        navigationController?.navigationBar.backgroundColor = .systemBackground
+        navigationController?.navigationBar.backgroundColor = .secondarySystemBackground
         fetchData()
         buildCells()
         collectionViewSetUp()
@@ -100,27 +88,23 @@ class SearchView: UIViewController {
     }
 
     private func collectionViewSetUp() {
-
-        
         view.addSubview(DiscoverCollectionView)
         DiscoverCollectionView.dataSource = self
         DiscoverCollectionView.delegate = self
         DiscoverCollectionView.snp.makeConstraints(){
             $0.leading.trailing.bottom.top.equalTo(view.safeAreaLayoutGuide)
-//            $0.top.equalTo(CategoriesCollectionView.snp.bottom).offset(50)
-//            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         DiscoverCollectionView.backgroundColor = .systemBackground
     }
 }
-
+// MARK: - UICollectionViewDelegateFlowLayout
 extension SearchView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let photo = items[indexPath.startIndex]
         return CGSize(width: (collectionView.frame.width / 2) - 1, height: CGFloat(photo.height/20))
     }
 }
-
+// MARK: - UICollectionViewDataSource
 extension SearchView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -132,17 +116,9 @@ extension SearchView: UICollectionViewDataSource {
         return cell
     }
 }
-
+// MARK: - UISearchBarDelegate
 extension SearchView: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.getSearchPhotos(query: searchBar.text!)
+        QueryString.instance.query = searchBar.text!
     }
-
-//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        <#code#>
-//    }
 }

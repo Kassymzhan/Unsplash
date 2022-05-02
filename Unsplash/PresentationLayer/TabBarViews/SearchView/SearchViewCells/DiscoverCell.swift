@@ -19,14 +19,9 @@ class DiscoverCell: UICollectionViewCell {
     
     lazy var image: UIImageView = {
         let image = UIImageView()
-        image.isUserInteractionEnabled = true
-        image.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(didTapCell)))
+
         return image
     }()
-    
-    @objc func didTapCell() {
-        print("123")
-    }
     
     let name: UILabel = {
         let label = UILabel()
@@ -71,17 +66,3 @@ class DiscoverCell: UICollectionViewCell {
     }
 }
 
-extension UICollectionViewCell {
-    func downloadImage(from url: URL, newsImage: UIImageView) {
-        getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            DispatchQueue.main.async() { [weak self] in
-                newsImage.image = UIImage(data: data)
-            }
-        }
-    }
-
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
-}
