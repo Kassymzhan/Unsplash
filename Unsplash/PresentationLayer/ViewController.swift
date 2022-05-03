@@ -11,7 +11,7 @@ class ViewController: UITabBarController {
     let service = PhotosServiceImpl()
     override func viewDidLoad() {
         super.viewDidLoad()
-        let vc1 = FeedView(viewModel: UnsplashViewModel(service: PhotosServiceImpl()))
+        let vc1 = UINavigationController(rootViewController: FeedView(viewModel: UnsplashViewModel(service: PhotosServiceImpl())))
         let vc2 = UINavigationController(rootViewController: SearchView(viewModel: UnsplashViewModel(service: PhotosServiceImpl())))
         let vc3 = AddView()
         let vc4 = ProfileView()
