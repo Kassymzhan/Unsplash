@@ -46,9 +46,26 @@ class PhotoCell: UITableViewCell, ConfigurableCell {
     
     typealias DataType = PhotoPO
     
+    static let didTapButtonAction = "PhotoCellDidTapButtonAction"
+    
+    private lazy var frameWidth = self.layer.frame.width
+    
     let image: UIImageView = {
         let image = UIImageView()
         return image
+    }()
+    
+    private let button: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        return button
+    }()
+    
+    let label: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont(name: "Helvetica", size: 16)
+        return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -60,16 +77,31 @@ class PhotoCell: UITableViewCell, ConfigurableCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc private func didTapButton() {
+        CellAction.custom(type(of: self).didTapButtonAction).invoke(cell: self)
+    }
+    
     func configure(data: PhotoPO) {
         let urlString = data.urls
         let url = URL(string: urlString)
+        label.text = "\(data.user.firstName) \(data.user.secondName ?? "")"
+        setImagetoButton(from: url!, button: button)
         downloadImage(from: url!, newsImage: image)
+        let multiplier = data.width / Int(frameWidth)
+        
+        button.snp.makeConstraints { make in
+            make.leading.trailing.top.bottom.equalToSuperview()
+            make.height.equalTo(data.height / multiplier)
+        }
     }
     
     private func setupConstaraints() {
-        contentView.addSubview(image)
-        image.snp.makeConstraints { make in
-            make.leading.trailing.top.bottom.equalToSuperview()
+        contentView.addSubview(button)
+        contentView.addSubview(label)
+        
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().offset(-8)
         }
     }
 }

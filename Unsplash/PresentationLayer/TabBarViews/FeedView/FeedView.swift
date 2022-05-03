@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class FeedView: UIViewController {
-//    let service = PhotosServiceImpl()
+
     private let viewModel: UnsplashViewModel
    
     private let items: [CellConfigurator] = []
@@ -60,8 +60,21 @@ class FeedView: UIViewController {
         super.viewDidLoad()
         fetchData()
         constraintTableView()
+        cellActionHandlers()
         bindViewModel()
         tableDirector.tableView.reloadData()
+        setupNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    private func setupNavigationBar() {
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     private func constraintTableView() {
@@ -70,6 +83,27 @@ class FeedView: UIViewController {
             make.leading.trailing.top.bottom.equalToSuperview()
         }
         tableView.backgroundColor = .secondarySystemBackground
+    }
+    
+    private func cellActionHandlers() {
+        self.tableDirector.actionProxy
+            .on(action: .didSelect) { (config: PhotoCellConfigurator, cell) in
+            }
+            .on(action: .willDisplay) { (config: PhotoCellConfigurator, cell) in
+                cell.backgroundColor = .gray
+            }
+            .on(action: .custom(PhotoCell.didTapButtonAction)) { (config: PhotoCellConfigurator, cell) in
+                self.openPhoto()
+                
+                let vc = OpenedPhotoView()
+                vc.image.image = cell.image.image
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            }
+    }
+    
+    private func openPhoto() {
+        print("eh")
     }
 }
 
