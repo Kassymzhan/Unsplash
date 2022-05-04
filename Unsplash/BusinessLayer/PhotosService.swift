@@ -27,6 +27,12 @@ protocol PhotosService {
     func getTopic(id: String ,success: @escaping (Topic) -> Void, failure: @escaping (Error) -> Void)
     
     func getTopicPhotos(id: String ,success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void)
+    
+    func getUserPhotos(username: String, success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void)
+    
+    func getUserLikedPhotos(username: String, success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void)
+    
+    func getUserCollections(username: String, success: @escaping ([Collection]) -> Void, failure: @escaping (Error) -> Void)
 }
 
 class PhotosServiceImpl: PhotosService {
@@ -142,6 +148,39 @@ class PhotosServiceImpl: PhotosService {
         var components = URLComponents()
         components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getListTopicsPage)]
         let urlString = String(format: "%@topics/\(id)/photos", EndPoint.baseUrl)
+        guard let url = URL(string: urlString + components.string!) else { return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.method = .get
+        urlRequest.allHTTPHeaderFields = prepareHeader()
+        networkClient.makeRequest(request: urlRequest, success: success, failure: failure)
+    }
+    
+    func getUserPhotos(username: String, success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void) {
+        var components = URLComponents()
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getListTopicsPage)]
+        let urlString = String(format: "%@users/\(username)/photos", EndPoint.baseUrl)
+        guard let url = URL(string: urlString + components.string!) else { return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.method = .get
+        urlRequest.allHTTPHeaderFields = prepareHeader()
+        networkClient.makeRequest(request: urlRequest, success: success, failure: failure)
+    }
+    
+    func getUserLikedPhotos(username: String, success: @escaping ([Photo]) -> Void, failure: @escaping (Error) -> Void) {
+        var components = URLComponents()
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getListTopicsPage)]
+        let urlString = String(format: "%@users/\(username)/likes", EndPoint.baseUrl)
+        guard let url = URL(string: urlString + components.string!) else { return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.method = .get
+        urlRequest.allHTTPHeaderFields = prepareHeader()
+        networkClient.makeRequest(request: urlRequest, success: success, failure: failure)
+    }
+    
+    func getUserCollections(username: String, success: @escaping ([Collection]) -> Void, failure: @escaping (Error) -> Void) {
+        var components = URLComponents()
+        components.queryItems = [URLQueryItem(name: "page", value: EndPoint.getListTopicsPage)]
+        let urlString = String(format: "%@users/\(username)/collections", EndPoint.baseUrl)
         guard let url = URL(string: urlString + components.string!) else { return }
         var urlRequest = URLRequest(url: url)
         urlRequest.method = .get

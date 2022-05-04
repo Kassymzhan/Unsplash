@@ -94,11 +94,9 @@ class FeedView: UIViewController {
             }
             .on(action: .custom(PhotoCell.didTapButtonAction)) { (config: PhotoCellConfigurator, cell) in
                 self.openPhoto()
-                
-                let vc = OpenedPhotoView()
-                vc.image.image = cell.image.image
+                let vc = OpenedPhotoViewController()
+                vc.imageView.image = cell.image.image
                 self.navigationController?.pushViewController(vc, animated: true)
-                
             }
     }
     
@@ -106,4 +104,3 @@ class FeedView: UIViewController {
         print("eh")
     }
 }
-

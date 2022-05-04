@@ -9,24 +9,26 @@ import UIKit
 
 class CollectionsCell: UICollectionViewCell {
     
-    var data: CollectionPO? {
+    var data: Collection? {
         didSet {
             guard let data = data else { return }
-            downloadImage(from: URL(string: data.collectionPhoto.urls.small)!, newsImage: image)
+            if let url = URL(string: data.coverPhoto.urls.small) {
+                imageView.downloadImage(from: url)
+            }
             title.text = data.title
         }
     }
     
-    lazy var image: UIImageView = {
+    lazy var imageView: UIImageView = {
         let image = UIImageView()
-        image.layer.cornerRadius = 10
+        image.layer.cornerRadius = 16
         return image
     }()
     
     let title: UILabel = {
         let label = UILabel()
         label.textColor = .label
-        label.font = label.font.withSize(13)
+        label.font = label.font.withSize(26)
         return label
     }()
     
@@ -36,23 +38,24 @@ class CollectionsCell: UICollectionViewCell {
         setupConstaraints()
     }
     
-    func configure(data: CollectionPO) {
-        let urlString = data.collectionPhoto.urls.small
-        let url = URL(string: urlString)
-        downloadImage(from: url!, newsImage: image)
+    func configure(data: Collection) {
+        let urlString = data.coverPhoto.urls.small
+        if let url = URL(string: urlString) {
+            imageView.downloadImage(from: url)
+        }
         title.text = data.title
     }
     
     private func setupConstaraints() {
         
-        contentView.addSubview(image)
-        image.snp.makeConstraints() {
+        contentView.addSubview(imageView)
+        imageView.snp.makeConstraints() {
             $0.center.equalToSuperview()
             $0.width.equalTo(contentView.snp.width)
             $0.height.equalTo(contentView.snp.height)
         }
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         
         contentView.addSubview(title)
         title.snp.makeConstraints() {

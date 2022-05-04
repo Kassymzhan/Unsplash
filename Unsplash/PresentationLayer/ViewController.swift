@@ -12,12 +12,12 @@ class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let vc1 = UINavigationController(rootViewController: FeedView(viewModel: UnsplashViewModel(service: PhotosServiceImpl())))
-        let vc2 = UINavigationController(rootViewController: SearchView(viewModel: UnsplashViewModel(service: PhotosServiceImpl())))
+        let vc2 = UINavigationController(rootViewController: SearchViewController(viewModel: UnsplashViewModel(service: PhotosServiceImpl())))
         let vc3 = AddView()
         let vc4 = ProfileView()
         setViewControllers([vc1, vc2, vc3, vc4], animated: true)
         
-        self.tabBar.backgroundColor = .systemBackground//UIColor(red: 0.05, green: 0.05, blue: 0.05, alpha: 1)
+        self.tabBar.backgroundColor = .systemBackground
         self.modalPresentationStyle = .fullScreen
         self.tabBar.tintColor = .label
         guard let items = self.tabBar.items else {return}
@@ -26,14 +26,6 @@ class ViewController: UITabBarController {
             items[i].image = UIImage(systemName: image[i])
         }
         view.backgroundColor = .black
-        
-//        service.getPhotos(
-//        success: { photos in
-//            print(photos[0].urls)
-//            print(type(of: photos[0].urls.raw))
-//
-//        }, failure: { error in
-//            print(error)
-//        })
+
     }
 }

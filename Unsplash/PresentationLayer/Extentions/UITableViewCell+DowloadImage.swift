@@ -1,19 +1,20 @@
 //
-//  UICollectionViewCell+Download.swift
+//  UITableViewCell+DowloadImage.swift
 //  Unsplash
 //
-//  Created by Касымжан Гиждуан on 02.05.2022.
+//  Created by Касымжан Гиждуан on 03.05.2022.
 //
 
 import UIKit
 
-// MARK: - UICollectionViewCell + Download
-extension UICollectionViewCell {
-    func downloadImage(from url: URL, newsImage: UIImageView) {
+// MARK: - UITableViewCell + DownloadImage
+extension UITableViewCell {
+    func setImagetoButton(from url: URL, button: UIButton) {
         getData(from: url) { data, response, error in
             guard let data = data, error == nil else { return }
-            DispatchQueue.main.async() { [weak self] in
-                newsImage.image = UIImage(data: data)
+            DispatchQueue.main.async { [weak self] in
+                button.setImage(UIImage(data: data), for: .normal)
+
             }
         }
     }

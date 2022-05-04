@@ -7,16 +7,25 @@
 
 import UIKit
 import SnapKit
-class OpenedPhotoView: UIViewController {
-    let image: UIImageView = {
+class OpenedPhotoViewController: UIViewController {
+    var imageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         return image
     }()
     
+    var imageUrl: String? {
+        didSet{
+            if let imageUrl = imageUrl, let url = URL(string: imageUrl) {
+                imageView.downloadImage(from: url)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
+        navigationController?.navigationBar.backgroundColor = .black
         setupNavigationBar()
         setupConstraints()
     }
@@ -27,8 +36,8 @@ class OpenedPhotoView: UIViewController {
     }
     
     private func setupConstraints(){
-        view.addSubview(image)
-        image.snp.makeConstraints { make in
+        view.addSubview(imageView)
+        imageView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
         }

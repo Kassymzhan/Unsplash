@@ -83,10 +83,14 @@ class PhotoCell: UITableViewCell, ConfigurableCell {
     
     func configure(data: PhotoPO) {
         let urlString = data.urls
-        let url = URL(string: urlString)
         label.text = "\(data.user.firstName) \(data.user.secondName ?? "")"
-        setImagetoButton(from: url!, button: button)
-        downloadImage(from: url!, newsImage: image)
+//        setImagetoButton(from: url!, button: button)
+//        downloadImage(from: url!, newsImage: image)
+        if let url = URL(string: urlString) {
+            image.downloadImage(from: url)
+            button.imageView?.downloadImage(from: url)
+            setImagetoButton(from: url, button: button)
+        }
         let multiplier = data.width / Int(frameWidth)
         
         button.snp.makeConstraints { make in

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProfileImage: Decodable {
+struct ProfileImage: Decodable, Hashable {
     let small, medium, large: String
     
     enum CodingKeys: String, CodingKey {

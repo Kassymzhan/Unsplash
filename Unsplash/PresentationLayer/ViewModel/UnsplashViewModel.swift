@@ -19,6 +19,9 @@ class UnsplashViewModel {
     var didGetCollectionPhotos: (([Photo]) -> Void)?
     var didGetSearchCollections: (([Collection]) -> Void)?
     var didGetSearchUsers: (([User]) -> Void)?
+    var didGetUserPhotos: (([Photo]) -> Void)?
+    var didGetUserLikedPhotos: (([Photo]) -> Void)?
+    var didGetUserCollections: (([Collection]) -> Void)?
     
     var query: [String] = [""]
     
@@ -54,7 +57,6 @@ class UnsplashViewModel {
             searchTerm: query,
             success: {[weak self] photos in
                 self?.photos = photos
-//                print(photos)
                 self?.didGetSearchPhotos?(photos)
             },
             failure: { error in
@@ -98,6 +100,46 @@ class UnsplashViewModel {
                 self?.didGetSearchUsers?(users)
             },
             failure: { error in
+                print(error)
+            }
+        )
+    }
+    
+    func getUserPhotos() {
+        service.getUserPhotos(
+            username: "pangare",
+            success: { [weak self] photos in
+                self?.photos = photos
+                self?.didGetUserPhotos?(photos)
+            },
+            failure: {error in
+                print(error)
+            }
+        )
+    }
+    
+    func getUserLikedPhotos() {
+        service.getUserLikedPhotos(
+            username: "pangare",
+            success: { [weak self] photos in
+                self?.photos = photos
+                self?.didGetUserLikedPhotos?(photos)
+            },
+            failure: {error in
+                print(error)
+            }
+        )
+    }
+
+    
+    func getUserCollections() {
+        service.getUserCollections (
+            username: "pangare",
+            success: { [weak self] collections in
+                self?.collections = collections
+                self?.didGetUserCollections?(collections)
+            },
+            failure: {error in
                 print(error)
             }
         )

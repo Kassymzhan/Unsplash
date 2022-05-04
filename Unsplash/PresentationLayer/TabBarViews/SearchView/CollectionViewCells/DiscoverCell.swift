@@ -9,17 +9,18 @@ import UIKit
 
 class DiscoverCell: UICollectionViewCell {
     
-    var data: Discover? {
+    var data: Photo? {
         didSet {
             guard let data = data else { return }
-            downloadImage(from: URL(string: data.imageUrl)!, newsImage: image)
-            name.text = data.name
+            if let url = URL(string: data.urls.small) {
+                imageView.downloadImage(from: url)
+            }
+            name.text = data.user.name
         }
     }
     
-    lazy var image: UIImageView = {
+    let imageView: UIImageView = {
         let image = UIImageView()
-
         return image
     }()
     
@@ -38,26 +39,27 @@ class DiscoverCell: UICollectionViewCell {
     
     func configure(data: PhotoPO) {
         let urlString = data.urls
-        let url = URL(string: urlString)
-        downloadImage(from: url!, newsImage: image)
+        if let url = URL(string: urlString) {
+            imageView.downloadImage(from: url)
+        }
         name.text = data.user.instagramUsername
     }
     
     private func setupConstaraints() {
         
-        contentView.addSubview(image)
-        image.snp.makeConstraints() {
+        contentView.addSubview(imageView)
+        imageView.snp.makeConstraints() {
             $0.center.equalToSuperview()
             $0.width.equalTo(contentView.snp.width)
             $0.height.equalTo(contentView.snp.height)
         }
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         
         contentView.addSubview(name)
         name.snp.makeConstraints() {
-            $0.leading.equalTo(image.snp.leading).inset(4)
-            $0.bottom.equalTo(image.snp.bottom).inset(4)
+            $0.leading.equalTo(imageView.snp.leading).inset(4)
+            $0.bottom.equalTo(imageView.snp.bottom).inset(4)
         }
     }
     
@@ -65,4 +67,3 @@ class DiscoverCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
