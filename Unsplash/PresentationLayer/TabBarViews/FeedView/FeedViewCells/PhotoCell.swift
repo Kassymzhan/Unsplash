@@ -84,8 +84,6 @@ class PhotoCell: UITableViewCell, ConfigurableCell {
     func configure(data: PhotoPO) {
         let urlString = data.urls
         label.text = "\(data.user.firstName) \(data.user.secondName ?? "")"
-//        setImagetoButton(from: url!, button: button)
-//        downloadImage(from: url!, newsImage: image)
         if let url = URL(string: urlString) {
             image.downloadImage(from: url)
             button.imageView?.downloadImage(from: url)

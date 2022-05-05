@@ -232,9 +232,9 @@
 		0DBE6D082822B080003A5BFC /* SearchResults */ = {
 			isa = PBXGroup;
 			children = (
-				0DBE6D052822961A003A5BFC /* UserDetailsViewController.swift */,
-				0DBE6CFF28223E00003A5BFC /* OpenedCollectionViewController.swift */,
 				0D92BC24281FB109002AB30D /* ResultsViewController.swift */,
+				0DBE6CFF28223E00003A5BFC /* OpenedCollectionViewController.swift */,
+				0DBE6D052822961A003A5BFC /* UserDetailsViewController.swift */,
 			);
 			path = SearchResults;
 			sourceTree = "<group>";
